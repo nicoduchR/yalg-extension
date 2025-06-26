@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "YALG - LinkedIn Post Sync",
+  "version": "2.0.0",
+  "description": "Sync your LinkedIn posts with YALG platform using a modern, maintainable architecture",
+  
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs",
+    "cookies"
+  ],
+  
+  "host_permissions": [
+    "*://*.linkedin.com/*",
+    "http://localhost:*/*",
+    "https://*.yalg.ai/*"
+  ],
+  
+  "background": {
+    "service_worker": "src/background/background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["*://*.linkedin.com/*"],
+      "js": ["src/shared/constants.js", "src/content/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_title": "YALG Post Sync"
+  },
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["src/injected.js", "icons/*"],
+      "matches": ["*://*.linkedin.com/*"]
+    }
+  ],
+  
+  "externally_connectable": {
+    "matches": [
+      "http://localhost:*/*",
+      "https://localhost:*/*",
+      "https://*.yalg.dev/*",
+      "https://*.yalg.app/*",
+      "https://*.vercel.app/*",
+      "https://*.netlify.app/*"
+    ],
+    "ids": ["*"]
+  },
+  
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; media-src 'self' blob:;"
+  },
+  
+  "minimum_chrome_version": "88"
+} 
