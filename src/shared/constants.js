@@ -7,12 +7,12 @@
 // ==============================================
 
 // Environment Configuration
-const ENVIRONMENT = 'development'; // Change to 'production' when deploying
+const ENVIRONMENT = 'production'; // Change to 'production' when deploying
 
 // URL Configuration - All URLs managed from here
 const URL_CONFIG = {
   development: {
-    FRONTEND_BASE: 'http://localhost:3400',
+    FRONTEND_BASE: 'https://localhost:3400',
     BACKEND_BASE: 'http://localhost:3000',
     ALLOWED_ORIGINS: [
       'http://localhost:3400',
@@ -20,13 +20,10 @@ const URL_CONFIG = {
     ]
   },
   production: {
-    FRONTEND_BASE: 'https://yalg.app', // TODO: Replace with your actual production URL
-    BACKEND_BASE: 'https://api.yalg.app', // TODO: Replace with your actual API URL
+    FRONTEND_BASE: 'https://yalg.ai', // TODO: Replace with your actual production URL
+    BACKEND_BASE: 'https://api.yalg.ai', // TODO: Replace with your actual API URL
     ALLOWED_ORIGINS: [
-      'https://yalg.app',
-      'https://www.yalg.app',
-      'https://yalg.dev',
-      'https://www.yalg.dev'
+      'https://yalg.ai',
     ]
   }
 };
