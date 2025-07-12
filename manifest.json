@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YALG - LinkedIn Post Sync",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Sync your LinkedIn posts with YALG platform using a modern, maintainable architecture",
   
   "permissions": [
@@ -14,7 +14,6 @@
   
   "host_permissions": [
     "*://*.linkedin.com/*",
-    "http://localhost:*/*",
     "https://*.yalg.ai/*"
   ],
   
@@ -50,12 +49,7 @@
   
   "externally_connectable": {
     "matches": [
-      "http://localhost:*/*",
-      "https://localhost:*/*",
-      "https://*.yalg.dev/*",
-      "https://*.yalg.app/*",
-      "https://*.vercel.app/*",
-      "https://*.netlify.app/*"
+      "https://*.yalg.ai/*"
     ],
     "ids": ["*"]
   },
