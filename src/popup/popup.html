@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YALG Extension</title>
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <style>
+    :root {
+      /* YALG Design System Colors */
+      --background: 0 0% 100%;
+      --foreground: 222.2 84% 4.9%;
+      --primary: 349 100% 55.5%;
+      --secondary: 210 40% 96.1%;
+      --muted: 210 40% 96.1%;
+      --border: 214.3 31.8% 91.4%;
+      --success: 142.1 76.2% 36.3%;
+      --warning: 47.9 95.8% 53.1%;
+      --destructive: 0 84.2% 60.2%;
+      --muted-foreground: 215.4 16.3% 46.9%;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 360px;
+      font-family: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11", "salt";
+      background: hsl(var(--background));
+      color: hsl(var(--foreground));
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: hsl(var(--primary));
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+      color: hsl(var(--foreground));
+    }
+
+    /* Cards */
+    .card {
+      background: hsl(var(--background));
+      border: 1px solid hsl(var(--border));
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Status Section */
+    .status-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: hsl(var(--muted-foreground));
+    }
+
+    .status-indicator.connected {
+      background: hsl(var(--success));
+    }
+
+    .status-indicator.syncing {
+      background: hsl(var(--warning));
+      animation: pulse 2s infinite;
+    }
+
+    .status-indicator.error {
+      background: hsl(var(--destructive));
+    }
+
+    .status-text {
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .last-sync {
+      font-size: 12px;
+      color: hsl(var(--muted-foreground));
+      margin-top: 4px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      margin: 12px 0;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: hsl(var(--secondary));
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, hsl(var(--primary)), hsl(349 100% 65%));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      font-size: 12px;
+      color: hsl(var(--muted-foreground));
+      margin-top: 8px;
+    }
+
+    /* Stats Grid */
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 12px;
+      background: hsl(var(--secondary));
+      border-radius: 8px;
+    }
+
+    .stat-number {
+      font-size: 18px;
+      font-weight: bold;
+      color: hsl(var(--primary));
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: hsl(var(--muted-foreground));
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: hsl(var(--primary));
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: hsl(349 100% 50%);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: hsl(var(--secondary));
+      color: hsl(var(--foreground));
+      border: 1px solid hsl(var(--border));
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: hsl(210 40% 92%);
+    }
+
+    .btn-voice {
+      background: hsl(var(--success));
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .btn-voice:hover:not(:disabled) {
+      background: hsl(142.1 76.2% 32%);
+    }
+
+    .btn-voice.recording {
+      background: hsl(var(--destructive));
+      animation: pulse 1.5s infinite;
+    }
+
+    .btn-link {
+      background: transparent;
+      color: hsl(var(--primary));
+      text-decoration: underline;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .btn-connect {
+      background: hsl(var(--primary));
+      color: white;
+      border: 2px solid hsl(var(--primary));
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-connect:hover:not(:disabled) {
+      background: hsl(var(--background));
+      color: hsl(var(--primary));
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 51, 102, 0.25);
+    }
+
+    .btn-connect:active {
+      transform: translateY(0);
+    }
+
+    /* Action Grid */
+    .actions {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    /* Messages */
+    .message {
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background: hsl(0 84.2% 95%);
+      color: hsl(var(--destructive));
+      border: 1px solid hsl(0 84.2% 90%);
+    }
+
+    .message.success {
+      background: hsl(142.1 76.2% 95%);
+      color: hsl(var(--success));
+      border: 1px solid hsl(142.1 76.2% 90%);
+    }
+
+    /* Recording UI */
+    .recording-ui {
+      display: none;
+      text-align: center;
+      padding: 16px;
+      background: hsl(0 84.2% 97%);
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .recording-ui.show {
+      display: block;
+    }
+
+    .recording-timer {
+      font-size: 24px;
+      font-weight: bold;
+      color: hsl(var(--destructive));
+      margin-bottom: 8px;
+    }
+
+    .recording-status {
+      font-size: 12px;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 16px;
+    }
+
+    .recording-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    /* Hidden */
+    .hidden {
+      display: none;
+    }
+
+    /* Link styling */
+    a {
+      color: hsl(var(--primary));
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">Y</div>
+      <div class="title">YALG Extension</div>
+    </div>
+
+    <!-- Connection Status -->
+    <div class="card">
+      <div class="status-header">
+        <div class="status-indicator" id="statusIndicator"></div>
+        <span class="status-text" id="statusText">Checking connection...</span>
+      </div>
+      <div class="last-sync" id="lastSync">Last sync: Never</div>
+      
+      <!-- Progress (hidden by default) -->
+      <div class="progress-container hidden" id="progressContainer">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText"></div>
+      </div>
+    </div>
+
+
+
+    <!-- Messages -->
+    <div class="message error" id="errorMessage"></div>
+    <div class="message success" id="successMessage"></div>
+
+    <!-- Recording UI (hidden by default) -->
+    <div class="recording-ui" id="recordingUI">
+      <div class="recording-timer" id="recordingTimer">00:00</div>
+      <div class="recording-status">Recording your anecdote...</div>
+      <div class="recording-actions">
+        <button class="btn btn-secondary" id="stopRecording">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="6" y="6" width="12" height="12" rx="2"/>
+          </svg>
+          Stop
+        </button>
+        <button class="btn btn-primary" id="cancelRecording">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="actions">
+      <button class="btn btn-voice" id="recordButton">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m12 1-3 3v8l3 3 3-3V4l-3-3z"/>
+          <path d="M8 9v3a4 4 0 0 0 8 0V9"/>
+          <path d="M8 21h8"/>
+        </svg>
+        Record Anecdote
+      </button>
+      
+      <button class="btn btn-primary" id="syncButton">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38"/>
+        </svg>
+        Sync Posts
+      </button>
+    </div>
+
+    <!-- Auth Actions -->
+    <div id="authActions">
+      <!-- Dashboard Link (shown when connected) -->
+      <a href="#" class="btn btn-link" id="dashboardLink" target="_blank">
+        Open YALG Dashboard →
+      </a>
+      
+      <!-- Login Button (shown when not connected) -->
+      <button class="btn btn-connect hidden" id="loginButton">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+          <polyline points="10,17 15,12 10,7"/>
+          <line x1="15" y1="12" x2="3" y2="12"/>
+        </svg>
+        Connect to YALG
+      </button>
+      
+      <!-- Refresh Button (shown when there's an error but user might have logged in) -->
+      <button class="btn btn-secondary hidden" id="refreshButton">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38"/>
+        </svg>
+        Refresh Connection
+      </button>
+    </div>
+  </div>
+
+  <!-- Load dependencies first -->
+  <script src="../shared/constants.js"></script>
+  <script src="../shared/logger.js"></script>
+  <script src="../shared/storage.js"></script>
+  <script src="../shared/messaging.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html> 
