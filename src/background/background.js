@@ -124,12 +124,14 @@ async function handleSingleHTMLElement(elementData, sendResponse) {
     console.log(`YALG Extension: Processing single HTML element ${elementData.id}`);
     
     // Get accessToken from cookie
+  
     const frontendUrl = globalThis.YALG_URLS?.FRONTEND_BASE || 'http://localhost:3400';
+    console.log(frontendUrl);
     const cookies = await chrome.cookies.getAll({ 
       domain: new URL(frontendUrl).hostname,
       name: 'accessToken'
     });
-    
+    console.log(cookies);
     if (cookies.length === 0 || !cookies[0].value) {
       throw new Error('No authentication token available - please log in to YALG');
     }
